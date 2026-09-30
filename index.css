@@ -533,7 +533,7 @@ h1 .tagline{
 }
 @keyframes slideAnimation {
     from {transform: translateX(0);}
-    100% {transform: translateX(calc(-6 * 120px));}
+    100% {transform: translateX(calc(-6 * 140px));}
 }
 .All-products-container{
     text-align: center;
