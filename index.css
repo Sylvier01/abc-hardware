@@ -11,6 +11,7 @@ body{
     background-color: whitesmoke;
     scroll-behavior: smooth;
     overflow-x: hidden;
+    font-family: "Google Sans", sans-serif;
 }
 h1{
     margin-top: 1.5em;
@@ -66,8 +67,8 @@ header{
         position: absolute;
         top: 3.9em;
         right: 0;
-        width: 50vw;
-        height: 70vh;
+        width: 80vw;
+        height: 100vh;
         text-align: center;
         background-color: rgb(0, 0, 0, 0.8);
     }
@@ -82,9 +83,17 @@ header{
     nav .left-aligned-nav li{
         width: 100%;
     }
-    header nav .logo-image{
-        width: 20%;
-        margin-right: 0;
+    .left-aligned-nav .close-icon{
+        display: block;
+        width: 40px;
+        margin: 0.5em 0.5em 0 auto;
+    }
+    nav .categories-icon{
+        width: 20px;
+    }
+    nav .whatsapp-icon,
+    nav .phone-icon{
+        width: 20px;
     }
     nav .categories-container{
         margin-top: 1em;
@@ -110,7 +119,6 @@ header{
         width: 15px;
         margin-bottom: -0.3em;
     }
-
     nav .right-aligned-nav{
         margin-right: 0.5em;
         gap: 8px;
@@ -118,21 +126,25 @@ header{
     header nav .cart-container{
         padding-left: 1em;
     }
-    .hero{
-        /* margin-top: 1em; */
-    }
     .hero-video{
         width: 100%;
         height: auto;
     }
-    .hero-content{
-        margin-top: 1em;
+    .hero .hero-content{
+        top: 20%;
         padding-top: 1em;
-        padding-bottom: 2em;
+        padding-bottom: 0.5em;
+        width: 80%;
     }
-    /* .hero-content .hero-cta{
-        font-size: 0.7em;
-    } */
+    .hero .hero-content h1{
+        margin-top: 3em;
+    }
+     .hero .hero-content p{
+        margin-bottom: 0.2em;
+    }
+    .hero .hero-cta{
+        margin-bottom: 0;
+    }
     .product .whatsapp-icon{
         width: 20px;
     }
@@ -142,23 +154,16 @@ header{
     .productPage-order{
         margin: 1em;
         width: 100%;
+        border: 1px solid;
     }
     .productPage .productPage-info{
-        /* width: 80%; */
         margin: 1em auto;
     }
     .productPage-image{
         margin: 1em auto;
     }
-    .cart-section{
-        flex-direction: column;
-        justify-content: space-evenly;
-        gap: 2em;
-    }
     .cart-html h2{
-        font-size: clamp(1rem, 10vw, 1.8rem) !important;
-        text-transform: uppercase;
-        text-decoration: underline;
+        font-size: clamp(1rem, 10vw, 1.8rem);
     }
     .cart-list-section{
         width: auto;
@@ -168,7 +173,6 @@ header{
     }
     .cart-section .cart-order-section{
         margin: 0 auto;
-        /* width: 60%; */
     }
     .contact .contact-buttons{
         flex-direction: column;
@@ -183,13 +187,19 @@ header{
         width: 90%;
         max-width: 320px;
         gap: 1em;
+        margin: 0 auto;
     }    
+    .upper-footer .logo{
+        width: 40%;
+        background-color: white;
+    }
     .contact,
     .footer-product-categories{
-        /* margin: 0 auto; */
         margin: 1em;
     }
 }
+
+/* General css */
 .header-style-1{
     color: black;
     display: flex;
@@ -205,10 +215,9 @@ header{
     display: flex;
     align-items: center;
     justify-content: start;
-
 }
 nav li{
-    padding: 0.4em 0.1em;
+    padding: 0.4em 0.8em;
     font-weight: 500;
     white-space: nowrap;
 }
@@ -223,14 +232,16 @@ nav li.active a:not(.drop-menu-item a){
     color: rgb(9, 84, 86);
 }
 nav .logo{
-    margin: 0.5em;
-    width: fit-content;
-    display: flex;
-}
-nav .logo-image{
     margin-left: 0.5em;
-    margin-right: 0.5em;
-    width: 80px;
+    padding: 0.5em;
+    border: 1px solid;
+    background-color: black;
+    color: white;
+    font-size: clamp(0.8rem, 2vw, 1.2rem);
+}
+.whatsapp-icon,
+.phone-icon{
+    width: 30px;
 }
 nav .menu-icon{
     width: 40px;
@@ -244,19 +255,22 @@ nav .menu-icon{
     align-items: center;
     justify-content: flex-start;
     margin-right: auto;
-    /* margin-left: auto; */
+    margin-left: auto;
 }
 .left-aligned-nav a{
     color: black;
     padding: 0.4em 0.5em;
 }
+.close-icon{
+    display: none;
+}
 .categories-container{
-    position: relative;
+    /* position: relative; */
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 1em;
-    margin-left: 1em;
+    /* margin-right: 1em; */
+    /* margin-left: 1em; */
 }
 .nav-and-icon{
     display: flex;
@@ -264,15 +278,17 @@ nav .menu-icon{
     justify-content: center;
     gap: 2px;
 }
-.categories-link{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* margin-top: -0.5em; */
+
+.categories-icon{
+    border: 1px solid;
+    border-radius: 35%;
+    width: 35px;
+    padding: 0.1em;
 }
-.categories-text{
-    font-size: clamp(0.8rem, 5vw, 1rem)
+.categories-container .categories-link{
+    padding: 0;
 }
+
 .down-arrow,
 .up-arrow {
     width: 25px;
@@ -308,7 +324,7 @@ nav .menu-icon{
     display: flex;
     align-items: center;
     border: 1px solid;
-    margin-left: auto;
+    margin: 0 auto 1em;
     margin-bottom: 1em;
     border-radius: 50px;
     background-color: white;
@@ -352,9 +368,7 @@ nav .menu-icon{
     display: flex;
     align-items: center;
     justify-content: center;
-    /* background-color: rgba(239, 246, 237, 0.9); */
     gap: 20px;
-    /* padding: 0.5em; */
 }
 nav .contact-buttons{
     display: flex;
@@ -417,6 +431,7 @@ nav .cart-container p{
     padding-left: 0.3em;
 }
 nav .cart-items-display{
+    display: none;
     position: absolute;
     z-index: 1;
     background-color: rgb(255, 165, 0, 0.8);
@@ -437,6 +452,34 @@ nav .cart-items-display{
 .tagline{
     font-style: italic;
 }
+.add-more-items {
+    font-weight: bold;
+    font-size: clamp(1rem, 5vw, 1.2rem);
+    padding: 0.5em;
+    margin-top: 0.5em;
+    margin-right: 0.5em;
+    border: 1px solid;
+    border-radius: 5px;
+    background-color: rgb(0, 255, 255, 0.5);
+    color: black;
+    text-align: center;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.add-more-items:hover{
+    transform: translateY(-2px);
+}
+table{
+    border: 1px solid;
+    border-collapse: separate;
+    border-spacing: 10px;
+    empty-cells: hide;
+}
+td{
+    text-align: center;
+}
+
+
+/* Index.html css */
 .hero{
     display: flex;
     position: relative;
@@ -474,23 +517,32 @@ nav .cart-items-display{
 }
 .hero-content{
     position: absolute;
-    top: 40%;
+    top: 20%;
     left: 50%;
     z-index: 1;  
-    width: 80%;
+    width: 65%;
+    margin-top: 2em;
     padding-top: 1em;
     transform: translate(-50%, -50%);
-    text-align: center;
-    font-size: clamp(0.9rem, 5vw, 2rem);
+    text-align: left;
+}
+.hero-content h1{
+    margin-bottom: 0.5em;
+    padding: 0;
+}
+.hero-content p{
+    font-size: clamp(0.8rem, 2vw, 2rem);
+    /* margin-left: 0.2em; */
+    margin-bottom: 1em;
 }
 .hero-cta{
     border: 1px solid;
     background-color: rgb(128, 243, 222);
     font-weight: bold;
-    font-size: clamp(1rem, 2vw, 1.5rem);
+    font-size: clamp(0.9rem, 2vw, 2rem);
     border-radius: 5px;
     text-transform: capitalize;
-    margin: 1em auto;
+    /* margin-left: 0.2em; */
     padding: 0.5em;
 }
 .hero-cta:hover{
@@ -499,6 +551,7 @@ nav .cart-items-display{
 }
 .hero-cta a{
     color: rgb(3, 16, 1);
+    /* font-size: clamp(0.8rem, 2vw, 2rem); */
 }
 h1 .tagline{
     font-weight: lighter;
@@ -558,70 +611,67 @@ h1 .tagline{
     margin-top: 0;
     margin-bottom: 0;
 }
+
+
+/* cart.html css */
+
 .cart-html h1{
     text-align: center;
     text-decoration: underline;
     text-transform: uppercase;
+    margin-top: 0;
     margin-bottom: 1em;
     font-size: clamp(1.5rem, 8vw, 2.5rem);
 }
 .cart-section{
     display: flex;
+    align-items: flex-start;
     justify-content: space-around;
     gap: 2em;
     font-size: clamp(1rem, 1.2vw, 2rem);
 }
-.cart-list-section{
-    border: 1px solid #b0afaf;
-    margin-bottom: 1em;
-    margin-right: 0;
-    margin-left: 0;
+.cart-order-section {
+    padding: 1em;
+    margin-top: 1em;
+    height: auto;
+    border: 1px solid;
 }
-.cart-list-section-header{
+.cart-order-section h2{
+    margin-top: 0;
+}
+.order-by-whatsapp{
     display: flex;
     align-items: center;
-    justify-content:flex-start;
-    padding-bottom: 0;
-}
-.cart-list-section h2{
-    text-decoration: underline;
-    margin-bottom: 0;
-    margin-top: 0;
-    width: fit-content;
-}
-.cart-order-section {
-    display: flex;
-    padding-bottom: 0;
-    margin-left: 1em;
-    width: 80%;
-}
-.cart-order-section .order-by-whatsapp{
+    justify-content: center;
+    gap: 0.2em;
+    border-radius: 12px;
+    margin: 0.5em auto 1em;
+    padding: 0.5em 0.3em;    
     width: 70%;
-    margin-bottom: 0;
+    background-color: rgb(37, 211, 102);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.2s ease;
 }
-.cart-table-content{
-    margin: 1em auto;
-    padding: 0.1em;
-    width: 70%;
+.order-by-whatsapp:hover{
+    background-color: rgb(29, 190, 88); 
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
 }
-.cart-table-content img{
-    width:40%;
-}
-.total-amount{
-    text-align: right;
-    margin-right: 2em;
-    margin-left: auto;
-    padding: 0.5em;
-    border: 1px solid;
-    width: fit-content;
-    font-size: clamp(1rem, 5vw, 1.2rem);
+.whatsapp-cta-link{
+    font-weight: bold;
+    font-size: clamp(0.65rem, 3vw, 0.85rem);
+    color: white;
+    text-align: center;
+    line-height: 1.1;
+    padding: 0;
 }
 .order-by-sms{
     margin: 1em auto;
+    padding: 1em;
     border-radius: 5px;
     border: 1px solid;
-    background-color: rgba(0, 0, 0, 0.3);
-    width: 60%;
+    background-color: rgb(255, 255, 255, 0.9);
+    width: fit-content;
     transition: transform 0.2s ease;
     white-space: nowrap;
 }
@@ -638,21 +688,86 @@ h1 .tagline{
 .order-call-here{
     width: fit-content;
     font-style: italic;
-    border-top: 1px solid;
+    border: 1px solid;
+    /* border-top: 1px solid;
+    border-bottom: 1px solid; */
 }
 .order-call-here a{
     text-decoration: underline;
 }
-table{
-    border: 1px solid;
-    /* width: 80%; */
-    border-collapse: separate;
-    border-spacing: 10px;
-    empty-cells: hide;
+.cart-list-section{
+    border: 1px solid #b0afaf;
+    width: fit-content;
+    margin: 1em auto;
 }
-td{
-    text-align: center;
-    /* padding: 0.1em; */
+.cart-list-section-header .add-more-items{
+    margin-left: 1em;
+}
+.cart-list-section h2{
+    text-decoration: underline;
+    margin: 0 auto;
+    width: fit-content;
+}
+.order-btns-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border-bottom: 1px solid;
+    padding-bottom: 1em;
+}
+.add-clear-btns{
+    display: flex;
+    align-items: center;
+    justify-content:flex-end;
+    margin-top: 2em;
+    
+}
+.order-btns{
+    width: 50%;
+    background-color: rgb(255, 165, 0, 0.7);
+    padding: 1em;
+}
+.cart-table-content{
+    display: none;
+    margin: 1em ;
+    padding: 0.1em;
+    text-align: left;
+}
+.cart-table-content img{
+    width:40%;
+}
+.cart-list-section table {
+    table-layout: fixed;
+    /* width: 100%; */
+    border-collapse: collapse;
+}
+.cart-list-section th:nth-child(1), 
+.cart-list-section td:nth-child(1) { width: 5%; text-align: center; } /* Number index */
+
+.cart-list-section th:nth-child(2), 
+.cart-list-section td:nth-child(2) { width: 25%; text-align: center; } /* Product Image */
+
+.cart-list-section th:nth-child(3), 
+.cart-list-section td:nth-child(3) { width: 40%; text-align: left; }   /* Name */
+
+.cart-list-section th:nth-child(4), 
+.cart-list-section td:nth-child(4) { width: 15%; text-align: center; } /* Quantity */
+
+.cart-list-section th:nth-child(5), 
+.cart-list-section td:nth-child(5) { width: 15%; text-align: right; }
+
+.cart-list-section td{
+    vertical-align: middle;
+    padding: 1em;
+}
+.cart-list-section td img{
+    max-width: 100px;
+    max-height: 100px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
 }
 .product-quantity{
     display: flex;
@@ -675,41 +790,36 @@ td{
 .plus{
     background-color: rgb(255, 165, 0, 0.8);
 }
-.cart-is-empty{
-    text-align: left;
-    margin: auto;
+.total-amount{
+    text-align: right;
+    margin-left: 1em;
+    margin-bottom: 1em;
+    padding: 0.5em;
+    border: 1px solid;
+    width: fit-content;
+    font-size: clamp(1rem, 5vw, 1.2rem);
 }
 .clear-cart{
-    padding: 0.5em 1em;
-    margin-left: auto;
-    margin-right: 3em;
-    background-color: rgb(0, 255, 255, 0.5);
+    padding: 1em 1.5em;
+    margin: 1em 3em 0 1em;
+    background-color: grey;
+    color: white;
     font-weight: bold;
     border: 1px solid;
+    border-radius: 5px;
     display: block;
     text-align: right;
 }
-.cart-list-section .add-more-items {
-    margin-left: 2.3em;
-    margin-bottom: 0;
-    padding: 0.5em;
-    border: 1px solid;
-    background-color: rgb(0, 128, 0, 0.5);
-    text-decoration: none;
-}
-.add-more-items{
+.empty-cart-icon{
     display: block;
-    width: fit-content;
-    margin: 1em auto -2em;
-    padding-bottom: 0;
-    font-weight: bold;
-    text-decoration: underline;
-    border-radius: 5px;
-    transition: transform 0.5s ease;
-    color: black;
+    margin: 1em auto;
+    width: 80%;
 }
-.add-more-items:hover{
-    transform: scale(1.02);
+.cart-is-empty-h2{
+    margin: 0 auto;
+    width: fit-content;
+    border-bottom: 1px solid;
+    font-size: 0.5rem, 5vw, 1.2rem;
 }
 .cart-table-content .recycle-bin{
     width: 15px;
@@ -735,6 +845,9 @@ td{
 .cart-btn a{    
     color: #1a1a1a;   
 }
+
+
+/* product.html css */
 .products-container{
     display: grid;
     grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));
@@ -784,42 +897,6 @@ td{
     color: #1a1a1a;
     margin: 0.3em 0 0.6em;
 }
-.cart{
-    width: 50%;
-    margin: 1dvh auto 1em;
-    background-color: rgb(194, 244, 186);
-}
-.order-by-whatsapp{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.2em;
-    border-radius: 12px;
-    margin: 0.5em auto 0;
-    padding: 0.5em 0.3em;
-    width: 100%;
-    background-color: rgb(37, 211, 102);
-    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.2s ease;
-}
-.order-by-whatsapp:hover{
-    background-color: rgb(29, 190, 88); 
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
-}
-.whatsapp-cta-link{
-    font-weight: bold;
-    font-size: clamp(0.65rem, 3vw, 0.85rem);
-    color: white;
-    text-align: center;
-    line-height: 1.1;
-    padding: 0;
-}
-.whatsapp-icon,
-.phone-icon,
-.categories-icon{
-    width: 30px;
-}
 .product-description{
     display: none;
 }
@@ -832,6 +909,7 @@ td{
     margin-bottom: 1em;
     text-align: center;
     text-decoration: underline;
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
 }
 .productPage-info{
     background-color: rgb(255, 255, 0, 0.3);
@@ -839,14 +917,21 @@ td{
     width: 50%;
     margin: 1em;
 }
-.productPage-order{
-    display: flex;
+.productPage-order .add-more-items{
+    display: block;
 }
-.productPage-order .whatsapp-icon{
-    width: 20px;
+.proceed-to-cart-btn{
+    background-color: rgb(252, 177, 39);
+    border: 1px solid;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: clamp(0.8rem, 5vw, 1rem);
+    margin: 3em auto 0;
+    padding-bottom: 0;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
-.productPage-order .whatsapp-cta-link{
-    white-space: wrap;
+.proceed-to-cart-btn:hover{
+    transform: translateY(-2px);
 }
 .pay{
     display: none;
@@ -858,29 +943,28 @@ td{
     color: white;
     font-size: 1rem;
 }
-.order{
+.productPage-order{
     padding: 1em 1em 2em 1em;  
     margin: 1em auto;
     height: fit-content;
     border: 1px solid #817f7f;
     background-color: rgb(255, 255, 255, 0.5);
 }
-.order h2{
+.productPage-order h2{
     font-size: clamp(1.3rem, 5vw, 1.8rem);
     text-decoration: underline;
     text-align: left;
     margin-bottom: 1em;
 }
-.order p{
+.productPage-order p{
     text-align: center;
     padding-top: 1em;
     padding-bottom: 1em;
 }
-.order button{    
+.productPage-order button{    
     padding: 0.8em;
-    /* width: fit-content; */
 }
-.order .cart-btn{
+.productPage-order .cart-btn{
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -891,10 +975,10 @@ td{
     padding: auto;
     font-weight: bold;
 }
-.order .cart-icon{
+.productPage-order .cart-icon{
     width: 25px;
 }
-.order .click-to-pay{
+.productPage-order .click-to-pay{
     display: none;
     background-color: orange;
     border: 1px solid;
@@ -904,11 +988,11 @@ td{
     font-weight: bold;
     transition: transform 0.1s ease-in;
 }
-.order .click-to-pay:hover{
+.productPage-order .click-to-pay:hover{
     background-color: rgb(252, 177, 39);
     transform: scale(1.02);
 }
-.order button img{
+.productPage-order button img{
     width: 40px;
     border: none;
 }
@@ -968,6 +1052,7 @@ footer{
     display: flex;
     align-items:flex-start;
     justify-content: center;
+    margin-top: 1em;
 }
 .lower-footer{
     position: static;
@@ -977,7 +1062,7 @@ footer{
 .cart-html{
     margin-bottom: 30em;
 }
-footer .logo-image{
+footer .logo{
     width: 8%;
     margin-right: auto;
     margin-left: 1em;
