@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="index.css">
@@ -12,31 +16,29 @@
         <nav>
             <ul class="header-style-1">
                 <!-- <li class="logo"> -->
-                
-                    <img src="./assets/logo/placeholder logo.png" alt="placeholder logo" class="logo-image">
-
-                    <li class="categories-container">
-                        <div class="nav-and-icon">                    
-                            <a href="#Categories" class="categories-link">
-                                <img class="categories-icon" src="/assets/icon/categories.png" alt="">
-                                <span class="categories-text">Categories</span>
-                            </a>
-                            <img src="assets/icon/down-arrow.png" alt="down-arrow" class="down-arrow">
-                            <img src="assets/icon/up-arrow.png" alt="up-arrow" class="up-arrow">   
-                        </div>
-                        <ul class="drop-menu"></ul> 
-                    </li>    
+                    <a class="logo" href="index.html#home">ABC <br>HARDWARE</a>                       
                                 
-                <div class="left-aligned-nav">       
+                <div class="left-aligned-nav">    
+                    
+                    <img class="close-icon" src="/assets/icon/close.png" alt="close-icon">
+
                     <li>
                         <a href="index.html#home">Home</a>
                     </li>          
                     <li class="all-products-container">
                         <a href="#All-products">All Products</a>
                     </li>
+
+                    <li class="categories-container">
+                        <div class="nav-and-icon">                    
+                            <a href="#Categories" class="categories-link">Categories</a>
+                            <img src="assets/icon/down-arrow.png" alt="down-arrow" class="down-arrow">
+                            <img src="assets/icon/up-arrow.png" alt="up-arrow" class="up-arrow">   
+                        </div>
+                        <ul class="drop-menu"></ul> 
+                    </li>
                                     
                     <li><a href="#About">About</a></li>
-                    <!-- <li><a href="#Testimonials">Testimonials</a></li> -->
                 </div>
 
                 <div class="right-aligned-nav">
@@ -59,29 +61,29 @@
                     </button>
                 </div>
 
-                <div class="contact-buttons">                
+                <!-- <div class="contact-buttons">                
                     <a class="whatsapp-contact-button" aria-label="Chat on WhatsApp" href="https://wa.me/254701973009"> 
                         <img class="whatsapp-icon" alt="Chat on WhatsApp" src="/assets/icon/whatsapp.png"/>
                     </a>
                     <a href="tel:+254792929806">
                         <img class="phone-icon" src="/assets/icon/phone.png" alt="phone-icon">
                     </a>                        
-                </div>
+                </div> -->
             </div>
         </nav>
     </header>
 
     <main>
         <section class="hero">
-            <!-- <video class="hero-video hero-styling" autoplay loop muted
+            <!-- <video class="hero-video" autoplay loop muted
                     poster="/assets/website background images/JPG/farm bg2.jpg">
                 <source src="/assets/video/hero-video-1-240.mp4" type="video/mp4">
             </video>   -->
             <img class="hero-image-bg" src="/assets/website background images/PNG/hardware.png" alt="hardware-BG">
             <div class="hero-content">
-                <h1 class="fade-slide-in hero-styling">ABC Hardware
+                <h1 class="fade-slide-in">For all your hardware needs! 
                 </h1>                
-                <p class="animated-paragraph hero-styling"> The solution to all your hardware needs! Search for anything you want, and if you can't find it, call us and we'll assist you.
+                <p class="animated-paragraph"> Search for anything you want, and if you can't find it, call us, and we'll assist you.
                 </p>
                 <button class="hero-cta"><a href="#Contact">Click to make enquiries</a></button>
             </div>            
@@ -193,7 +195,7 @@
     <footer>
         
         <div class="upper-footer">        
-            <img src="./assets/logo/Sylvan Logistics logo -black bg.png" alt="placeholder logo" class="logo-image">
+            <a class="logo" href="index.html#home">ABC <br>HARDWARE</a>
             
             <section class="contact">
                 <h2 id="Contact">Contact Us</h2>
@@ -214,7 +216,7 @@
         </div>
 
         <div class="lower-footer">
-            <p class="copyright-info">&copy <span id="copyright-year">2026</span><span id="copyright-name"> Sylvan Logistics</span></p>
+            <p class="copyright-info">&copy <span id="copyright-year"></span><span id="copyright-name"> ABC Hardware</span></p>
         </div>
     </footer>
 
