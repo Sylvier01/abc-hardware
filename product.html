@@ -11,43 +11,32 @@
         <nav>
             <ul class="header-style-1">
                 <!-- <li class="logo"> -->
-                
-                    <img src="./assets/logo/placeholder logo.png" alt="placeholder logo" class="logo-image">
-
-                    <li class="categories-container">
-                        <div class="nav-and-icon">                    
-                            <a href="#Categories" class="categories-link">
-                                <img class="categories-icon" src="/assets/icon/categories.png" alt="">
-                                <span class="categories-text">Categories</span>
-                            </a>
-                            <img src="assets/icon/down-arrow.png" alt="down-arrow" class="down-arrow">
-                            <img src="assets/icon/up-arrow.png" alt="up-arrow" class="up-arrow">   
-                        </div>
-                        <ul class="drop-menu"></ul> 
-                    </li>    
+                    <a class="logo" href="index.html#home">ABC <br>HARDWARE</a>                       
                                 
-                <div class="left-aligned-nav">       
+                <div class="left-aligned-nav">    
+                    
+                    <img class="close-icon" src="/assets/icon/close.png" alt="close-icon">
+
                     <li>
                         <a href="index.html#home">Home</a>
                     </li>          
                     <li class="all-products-container">
-                        <a href="index.html#All-products">All Products</a>
+                        <a href="#All-products">All Products</a>
+                    </li>
+
+                    <li class="categories-container">
+                        <div class="nav-and-icon">                    
+                            <a href="#Categories" class="categories-link">Categories</a>
+                            <img src="assets/icon/down-arrow.png" alt="down-arrow" class="down-arrow">
+                            <img src="assets/icon/up-arrow.png" alt="up-arrow" class="up-arrow">   
+                        </div>
+                        <ul class="drop-menu"></ul> 
                     </li>
                                     
-                    <li><a href="index.html#About">About</a></li>
-                    <!-- <li><a href="#Testimonials">Testimonials</a></li> -->
+                    <li><a href="#About">About</a></li>
                 </div>
 
-                 <div class="right-aligned-nav">
-                    
-                    <div class="contact-buttons">                
-                        <a class="whatsapp-contact-button" aria-label="Chat on WhatsApp" href="https://wa.me/254701973009"> 
-                            <img class="whatsapp-icon" alt="Chat on WhatsApp" src="/assets/icon/whatsapp.png"/>
-                        </a>
-                        <a href="tel:+254792929806">
-                            <img class="phone-icon" src="/assets/icon/phone.png" alt="phone-icon">
-                        </a>                        
-                    </div>
+                <div class="right-aligned-nav">
 
                     <li class="cart-container">                        
                         <span class="cart-items-display"></span><img src="assets/icon/shopping-cart png.png" alt="cart icon" class="cart-icon">
@@ -55,39 +44,48 @@
                     </li>
 
                     <img class="menu-icon" src="./assets/icon/menu icon.png" alt="menu-icon">
+                </div>                
+            </ul>
+            <div class="below-header-style-1">  
+                           
+                <div class="input-container">                
+                    <input type="search" id="search-input" name="search" placeholder="Search for paints, nails, etc...">
+                    <button id="search-btn" type="submit">
+                        <img class="search-btn-icon" src="/assets/icon/search.png" alt="search-icon">
+                        <p class="search-btn-text"><b>Search</b></p>
+                    </button>
                 </div>
 
-            </ul>
+                <!-- <div class="contact-buttons">                
+                    <a class="whatsapp-contact-button" aria-label="Chat on WhatsApp" href="https://wa.me/254701973009"> 
+                        <img class="whatsapp-icon" alt="Chat on WhatsApp" src="/assets/icon/whatsapp.png"/>
+                    </a>
+                    <a href="tel:+254792929806">
+                        <img class="phone-icon" src="/assets/icon/phone.png" alt="phone-icon">
+                    </a>                        
+                </div> -->
+            </div>
         </nav>
     </header>
     
     <main>
         <h1 class="productPage-h1">PRODUCT</h1>
 
-        <section class="productPage">                       
-        
-            <div class="productPage-order"> 
-                <section class="order">   
-                    <h3>Order</h3>       
-                    <button class="nav-and-icon cart-btn">
-                        <img src="assets/icon/shopping-cart png.png" alt="cart-icon" class="cart-icon">
-                        <div class="cart-cta-link"><a href="#Add To Cart">Add To Cart</a></div>
-                    </button>
-                    
-                    <button class="click-to-pay">Click to Pay</button>
-                    
-                    <p><b>OR</b></p>
-                    
-                    <button class="nav-and-icon order-by-whatsapp">
-                        <img src="assets/icon/whatsapp.png" alt="whatsapp-icon" class="whatsapp-icon">
-                        <a class="whatsapp-cta-link">Order on WhatsApp</a>                 
-                    </button>
+        <section class="productPage">
 
-                    <div>
-                        <a href="/index.html" class="add-more-items">Add more items</a>
-                    </div>
-                </section>
-            </div>
+            <div class="productPage-order">   
+                <h3>Order</h3>       
+                <button class="nav-and-icon cart-btn">
+                    <img src="assets/icon/shopping-cart png.png" alt="cart-icon" class="cart-icon">
+                    <div class="cart-cta-link"><a href="#Add To Cart">Add this product To Cart</a></div>
+                </button>
+                
+                <button class="click-to-pay">Click to Pay</button>
+                
+                <a href="/index.html" class="add-more-items">Add other items</a>
+                
+                <button class="proceed-to-cart-btn">Proceed to Cart for Checkout</button>
+            </div>          
 
             <div class="productPage-info">         
                 <h3 class="productPage-product-name"></h3>
@@ -101,7 +99,7 @@
      <footer>
         
         <div class="upper-footer">        
-            <img src="./assets/logo/Sylvan Logistics logo -black bg.png" alt="placeholder logo" class="logo-image">
+            <img src="./assets/logo/placeholder logo.png" alt="placeholder logo" class="logo-image">
             
             <section class="contact">
                 <h2 id="Contact">Contact Us</h2>
@@ -122,7 +120,7 @@
         </div>
 
         <div class="lower-footer">
-            <p class="copyright-info">&copy <span id="copyright-year">2026</span><span id="copyright-name"> Sylvan Logistics</span></p>
+            <p class="copyright-info">&copy <span id="copyright-year"></span><span id="copyright-name"> ABC Hardware</span></p>
         </div>
     </footer>
 
