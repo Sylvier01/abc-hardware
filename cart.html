@@ -11,43 +11,32 @@
         <nav>
             <ul class="header-style-1">
                 <!-- <li class="logo"> -->
-                
-                    <img src="./assets/logo/placeholder logo.png" alt="placeholder logo" class="logo-image">
-
-                    <li class="categories-container">
-                        <div class="nav-and-icon">                    
-                            <a href="#Categories" class="categories-link">
-                                <img class="categories-icon" src="/assets/icon/categories.png" alt="">
-                                <span class="categories-text">Categories</span>
-                            </a>
-                            <img src="assets/icon/down-arrow.png" alt="down-arrow" class="down-arrow">
-                            <img src="assets/icon/up-arrow.png" alt="up-arrow" class="up-arrow">   
-                        </div>
-                        <ul class="drop-menu"></ul> 
-                    </li>    
+                    <a class="logo" href="index.html#home">ABC <br>HARDWARE</a>                       
                                 
-                <div class="left-aligned-nav">       
+                <div class="left-aligned-nav">    
+                    
+                    <img class="close-icon" src="/assets/icon/close.png" alt="close-icon">
+
                     <li>
                         <a href="index.html#home">Home</a>
                     </li>          
                     <li class="all-products-container">
-                        <a href="index.html#All-products">All Products</a>
+                        <a href="#All-products">All Products</a>
+                    </li>
+
+                    <li class="categories-container">
+                        <div class="nav-and-icon">                    
+                            <a href="#Categories" class="categories-link">Categories</a>
+                            <img src="assets/icon/down-arrow.png" alt="down-arrow" class="down-arrow">
+                            <img src="assets/icon/up-arrow.png" alt="up-arrow" class="up-arrow">   
+                        </div>
+                        <ul class="drop-menu"></ul> 
                     </li>
                                     
-                    <li><a href="index.html#About">About</a></li>
-                    <!-- <li><a href="#Testimonials">Testimonials</a></li> -->
+                    <li><a href="#About">About</a></li>
                 </div>
 
                 <div class="right-aligned-nav">
-
-                    <div class="contact-buttons">                
-                        <a class="whatsapp-contact-button" aria-label="Chat on WhatsApp" href="https://wa.me/254701973009"> 
-                            <img class="whatsapp-icon" alt="Chat on WhatsApp" src="/assets/icon/whatsapp.png"/>
-                        </a>
-                        <a href="tel:+254792929806">
-                            <img class="phone-icon" src="/assets/icon/phone.png" alt="phone-icon">
-                        </a>                        
-                    </div>
 
                     <li class="cart-container">                        
                         <span class="cart-items-display"></span><img src="assets/icon/shopping-cart png.png" alt="cart icon" class="cart-icon">
@@ -57,7 +46,25 @@
                     <img class="menu-icon" src="./assets/icon/menu icon.png" alt="menu-icon">
                 </div>                
             </ul>
-            
+            <div class="below-header-style-1">  
+                           
+                <div class="input-container">                
+                    <input type="search" id="search-input" name="search" placeholder="Search for paints, nails, etc...">
+                    <button id="search-btn" type="submit">
+                        <img class="search-btn-icon" src="/assets/icon/search.png" alt="search-icon">
+                        <p class="search-btn-text"><b>Search</b></p>
+                    </button>
+                </div>
+
+                <!-- <div class="contact-buttons">                
+                    <a class="whatsapp-contact-button" aria-label="Chat on WhatsApp" href="https://wa.me/254701973009"> 
+                        <img class="whatsapp-icon" alt="Chat on WhatsApp" src="/assets/icon/whatsapp.png"/>
+                    </a>
+                    <a href="tel:+254792929806">
+                        <img class="phone-icon" src="/assets/icon/phone.png" alt="phone-icon">
+                    </a>                        
+                </div> -->
+            </div>
         </nav>
     </header>
     
@@ -66,33 +73,52 @@
         
         <div class="cart-section">
 
-            <div class="cart-order-section"> 
-                <section class="order">   
-                    <h2>Order</h2>       
+            <!-- <div class="cart-order-section">                    
+                    <h2>Order</h2>      
                     
                     <button class="cta nav-and-icon order-by-whatsapp">
                         <img src="assets/icon/whatsapp.png" alt="whatsapp-icon" class="whatsapp-icon">
                         <a class="whatsapp-cta-link">Order by WhatsApp</a>                
                     </button>
 
-                    <p>Don't have WhatsApp? <br>Order by SMS</p>
+                    <p style="text-align: center;"><b>OR</b></p> 
                     
                     <button class="order-by-sms">
                         <div class="cart-cta-link"><a href="#Add To Cart">Order by SMS</a></div>
                     </button>                    
 
-                    <p class="order-call-here">Click <a href="tel: +254792929806">Here</a><br>or dial +254792929806 <br>to confirm you've placed an order with the seller</p>
-                </section>
-            </div>
+            </div> -->
 
             <div class="cart-list-section">
-                <div class="cart-list-section-header">
-                    <h2>My Cart</h2>                    
+
+                <h2>My Cart</h2>
+
+                <div class="order-btns-container">
+
+                    <div class="order-btns">
+                        <button class="cta nav-and-icon order-by-whatsapp">
+                            <img src="assets/icon/whatsapp.png" alt="whatsapp-icon" class="whatsapp-icon">
+                            <a class="whatsapp-cta-link">Order by WhatsApp</a>                
+                        </button>
+                        <button class="order-by-sms">
+                            <div class="cart-cta-link"><a href="#Add To Cart">Order by SMS</a></div>
+                        </button>
+                    </div>
+
+                    <p class="order-call-here">Click <a href="tel: +254792929806">Here</a><br>or dial +254792929806 <br>to confirm you've placed an order with us</p>
+                
+                </div>
+
+                <div class="add-clear-btns">                           
+                    <a class="add-more-items" href="index.html">Add items to cart</a>
                     <button class="clear-cart">Clear Cart</button>
                 </div>
-                <div>
-                    <a class="add-more-items" href="index.html">Add items to cart</a>
+
+                <div class="empty-cart-container">
+                    <img class="empty-cart-icon" src="/assets/icon/empty-cart.png" alt="empty cart icon">
+                    <h2 class="cart-is-empty-h2">Cart is Currently Empty</h2>
                 </div>
+                
                 <section class="table-section">
                     <table class="cart-table-content">
                         <tr>
@@ -105,7 +131,6 @@
                         
                     </table>
                     <h3 class="total-amount"></h3>
-                    <h2 class="cart-is-empty">Cart is Currently Empty</h2>
                 </section>
             </div>
         </div>
@@ -114,7 +139,7 @@
      <footer>
         
         <div class="upper-footer">        
-            <img src="./assets/logo/Sylvan Logistics logo -black bg.png" alt="placeholder logo" class="logo-image">
+            <img src="./assets/logo/placeholder logo.png" alt="placeholder logo" class="logo-image">
             
             <section class="contact">
                 <h2 id="Contact">Contact Us</h2>
@@ -135,7 +160,7 @@
         </div>
 
         <div class="lower-footer">
-            <p class="copyright-info">&copy <span id="copyright-year">2026</span><span id="copyright-name"> Sylvan Logistics</span></p>
+            <p class="copyright-info">&copy <span id="copyright-year"></span><span id="copyright-name"> ABC Hardware</span></p>
         </div>
     </footer>
 
