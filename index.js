@@ -1,24 +1,21 @@
 import homepageProductsData from "./homepageProductsData.js"
 
-const active = document.querySelector(".active")
 const navItems = document.querySelectorAll("nav li")
-const navItemContainer = document.querySelector(".nav-item-container")
 const navAndIcon = document.querySelector(".nav-and-icon")
-const secondNavListItem = document.querySelector(".second-nav-list-item")
+const categoriesContainer = document.querySelector(".categories-container")
 const upArrow = document.querySelector(".up-arrow")
 const downArrow = document.querySelector(".down-arrow")
 const dropMenu = document.querySelector(".drop-menu")
-const hero = document.querySelector(".hero")
-const cart = document.querySelectorAll(".cart")
 const cartContainer = document.querySelector(".cart-container")
 const cartItemsDisplay = document.querySelector(".cart-items-display")
+const cartTableContent = document.querySelector(".cart-table-content")
 const addMoreItems = document.querySelector(".add-more-items")
 const clearCart = document.querySelector(".clear-cart")
-const ctaLink = document.querySelectorAll(".cta-link")
-const orderButtons = document.querySelectorAll(".order-by-whatsapp")
+const totalAmount = document.querySelector(".total-amount")
 const orderByWhatsapp = document.querySelector(".order-by-whatsapp")
 const orderBySms = document.querySelector(".order-by-sms")
 
+const BUSINESS_NAME = "ABC Hardware"
 const WHATSAPP_NUMBER = "254701973009"
 const SMS_NUMBER = "+254792929806"
 
@@ -28,70 +25,54 @@ let cartAddedItems = JSON.parse(localStorage.getItem("cartAddedItems")) || []
 
 /**
  * ============================================================
- * WHAT CHANGED IN THIS FIX — READ THIS FIRST
- * ============================================================
- *
- * The categories dropdown (and several other things) weren't
- * broken by their own logic — they were never RUNNING on
- * product.html / cart.html, because an earlier, unrelated line
- * threw an error and silently killed the rest of the script.
- *
- * FIX 1: `.all-categories` only exists on index.html. On
- * product.html/cart.html, `allCategories` was null, and
- * `allCategories.innerHTML += ...` threw a TypeError — which
- * stops ALL code after it in the file from running, including
- * the drop-menu category links, footer category links, the
- * scroll-up arrow, and the footer year updater on those pages.
- * Fixed by wrapping the whole homepage-only product-rendering
- * block in `if (allCategories) { ... }`.
- *
- * FIX 2: `sumOfAllProducts` was declared as a `const` on a
- * COMMENTED-OUT line, but then used (uncommented) a few lines
- * later — a ReferenceError, which would have broken the rest of
- * the script even on index.html itself, right after the
- * categories section. Fixed by properly declaring it and
- * guarding its use.
- *
- * FIX 3: category links for the drop-menu and footer are now
- * built once, from data only (no DOM dependency), and run
- * unconditionally on every page — since the nav and footer exist
- * on every page, these links should always be there. Their
- * hrefs now point to `index.html#<category>` when the current
- * page isn't index.html itself, so clicking a category from
- * product.html or cart.html actually navigates to the homepage
- * and lands on that category, instead of pointing at a fragment
- * that only exists on index.html.
- *
- * FIX 4: `searchResultsContainer.addEventListener(...)` ran
- * unguarded — if that element doesn't exist on a page, this
- * would throw too. Now it only attaches if the element exists.
+ * HELPERS
  * ============================================================
  */
 
+// FIX 9: anything placed into innerHTML / attributes goes through this,
+// so a quote in a product name (e.g. 4.5") can't break the markup.
+function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    }[char]))
+}
+
+function stripHtml(html) {
+    const temp = document.createElement("div")
+    temp.innerHTML = html
+    return temp.textContent
+}
+
+// FIX 8: price 0 means "no price yet"
+const hasPrice = (price) => Number(price) > 0
+const priceLabel = (price) => hasPrice(price) ? `Ksh. ${price}` : "Price on request"
+
+function openWhatsApp(message) {
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, "_blank")
+}
 
 /**
- * ============================================================
- * CHANGE 1: getProductData
- * ------------------------------------------------------------
- * Single place that reads a product's data off its .product
- * element. Every part of the file that needs product info calls
- * this instead of reading dataset/DOM text separately.
- * ============================================================
+ * FIX 9: description is no longer stored in a data-* attribute on the
+ * product card (any " in it would break the HTML). It is looked up
+ * from the data file by product name instead.
  */
 function getProductData(productElement) {
+    const name = productElement.dataset.name
+    const source = homepageProductsData.find((p) => p.itemName === name)
+
     return {
-        name: productElement.dataset.name,
+        name,
         price: productElement.dataset.price,
-        image: productElement.dataset.image
+        image: productElement.dataset.image,
+        category: productElement.dataset.category,
+        description: source ? source.productDescription : ""
     }
 }
 
-
-/**
- * ============================================================
- * CHANGE 2: addToCart
- * ============================================================
- */
 function addToCart({ name, price, image }) {
     const existing = cartAddedItems.find(p => p.name === name)
 
@@ -108,33 +89,30 @@ function addToCart({ name, price, image }) {
     return existing ? existing.quantity : 1
 }
 
-
-/**
- * ============================================================
- * CHANGE 3: buildOrderMessage
- * ============================================================
- */
 function buildOrderMessage() {
-    const orderItems = cartAddedItems.map((product) => {
-        return ` ${product.name}
-                Quantity: ${product.quantity}
-                Price for Each:  ${product.price}
-                Total for the product: KSH. ${product.price * product.quantity}
-        `
+    const orderItems = cartAddedItems.map((product, index) => {
+        return [
+            `${index + 1}. ${product.name}`,
+            `   Quantity: ${product.quantity}`,
+            `   Price for each: Ksh. ${product.price}`,
+            `   Total for the product: Ksh. ${product.price * product.quantity}`
+        ].join("\n")
     }).join("\n\n")
 
     const overallTotalAmount = cartAddedItems.reduce((total, product) => {
         return total + (Number(product.price) * product.quantity)
     }, 0)
 
-    return `Hello, Sylvan Logistics! I'm ordering the following:  
-                
-                ${orderItems}
-                
-                Total cost: KSH: ${overallTotalAmount}
-
-
-                Kindly deliver to:`
+    // FIX: this used to say "Sylvan Logistics" (copied from the other site)
+    return [
+        `Hello, ${BUSINESS_NAME}! I'm ordering the following:`,
+        "",
+        orderItems,
+        "",
+        `Total cost: Ksh. ${overallTotalAmount}`,
+        "",
+        "Kindly deliver to:"
+    ].join("\n")
 }
 
 
@@ -154,8 +132,8 @@ navItems.forEach((item) => {
 /**
  * Drop menu open/close toggle
  */
-if (navAndIcon && dropMenu) {
-    navAndIcon.addEventListener("click", (event) => {
+if (categoriesContainer && dropMenu) {
+    categoriesContainer.addEventListener("click", (event) => {
         event.stopPropagation()
 
         if (getComputedStyle(dropMenu).display === "none") {
@@ -182,6 +160,7 @@ window.addEventListener("click", () => {
  * Menu-icon display (mobile nav toggle)
  */
 const menuIcon = document.querySelector(".menu-icon")
+const closeIcon = document.querySelector(".close-icon")
 const leftAlignedNav = document.querySelector(".left-aligned-nav")
 
 if (menuIcon && leftAlignedNav) {
@@ -201,6 +180,7 @@ if (menuIcon && leftAlignedNav) {
 
     window.addEventListener("resize", checkScreenWidth)
 
+    //menu-icon to close leftAlignedNav
     menuIcon.addEventListener("click", (event) => {
         event.stopPropagation()
 
@@ -211,6 +191,23 @@ if (menuIcon && leftAlignedNav) {
         }
     })
 }
+//close-icon to close leftAlignedNav
+if (closeIcon && leftAlignedNav) {
+    closeIcon.addEventListener("click", () => {
+        leftAlignedNav.style.display = "none"
+    })
+}
+
+//close leftAlignedNav when link clicked
+if(leftAlignedNav){
+    const navLinks = document.querySelectorAll("a:not(.categories-link)")
+
+    navLinks.forEach((link) =>{
+        link.addEventListener("click", () =>{
+            leftAlignedNav.style.display = "none"
+        })
+    })
+}
 
 
 /**
@@ -218,18 +215,21 @@ if (menuIcon && leftAlignedNav) {
  * CART PAGE
  * ============================================================
  */
+const emptyCartContainer = document.querySelector(".empty-cart-container")
+const orderBtnsContainer = document.querySelector(".order-btns-container")
 
-const cartIsEmpty = document.querySelector(".cart-is-empty")
-const cartOrderSection = document.querySelector(".cart-order-section")
 
-if (cartIsEmpty && clearCart) {
-    if (cartAddedItems.length === 0) {
-        cartIsEmpty.style.display = "block"
-        clearCart.style.display = "none"
-        if (cartOrderSection) cartOrderSection.style.display = "none"
-    } else {
-        cartIsEmpty.style.display = "none"
-        if (cartOrderSection) cartOrderSection.style.display = "block"
+// Every element is null-checked inside, so this is safe on any page
+function setEmptyCartUI() {
+    if (emptyCartContainer) emptyCartContainer.style.display = "block"
+    if (cartTableContent) cartTableContent.style.display = "none"
+    if (totalAmount) totalAmount.style.display = "none"
+    if (clearCart) clearCart.style.display = "none"
+    if (orderBtnsContainer) orderBtnsContainer.style.display = "none"
+
+    if (addMoreItems) {
+        addMoreItems.style.marginRight = "auto"
+        addMoreItems.style.marginLeft = "auto"
     }
 }
 
@@ -240,8 +240,6 @@ if (cartContainer) {
 }
 
 function updateTotalAmount() {
-    const totalAmount = document.querySelector(".total-amount")
-
     if (totalAmount) {
         const overallTotalAmount = cartAddedItems.reduce((total, product) => {
             return total + (Number(product.price) * product.quantity)
@@ -251,13 +249,25 @@ function updateTotalAmount() {
     }
 }
 
-if (document.querySelector(".cart-table-content")) {
+if (cartTableContent) {
 
-    const cartTableContent = document.querySelector(".cart-table-content")
+    // FIX 4: empty-cart container is null-checked
+    if (cartAddedItems.length > 0) {
+        cartItemsDisplay.style.display = "block"
+        cartTableContent.style.display = "block"
+        if (emptyCartContainer) emptyCartContainer.style.display = "none"
+    } else {
+        setEmptyCartUI()
+    }
 
     cartAddedItems.forEach((product, index) => {
 
         const row = document.createElement("tr")
+
+        row.className = "cart-item"
+        row.dataset.name = product.name
+        row.dataset.price = product.price
+        row.dataset.image = product.image
 
         row.innerHTML = `
             <td>
@@ -265,11 +275,15 @@ if (document.querySelector(".cart-table-content")) {
             </td>
 
             <td>
-                <img src="${product.image}" class="table-product-image">
+                <img 
+                    src="${escapeHtml(product.image)}" 
+                    alt="${escapeHtml(product.name)}" 
+                    class="cart-product-image"
+                >
             </td>
 
             <td>
-                ${product.name}
+                ${escapeHtml(product.name)}
             </td>
 
             <td class="product-quantity">
@@ -285,25 +299,27 @@ if (document.querySelector(".cart-table-content")) {
                     class="recycle-bin">
             </td>
         `
-        updateTotalAmount()
-
-        if (orderByWhatsapp) {
-            orderByWhatsapp.addEventListener("click", () => {
-                const message = buildOrderMessage()
-                const whatsappLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
-                window.open(whatsappLink, "_blank")
-            })
-        }
-
-        if (orderBySms) {
-            orderBySms.addEventListener("click", () => {
-                const message = buildOrderMessage()
-                const smsLink = `sms:${SMS_NUMBER}?body=${encodeURIComponent(message)}`
-                window.location.href = smsLink
-            })
-        }
 
         cartTableContent.appendChild(row)
+
+        //make image clickable
+        cartTableContent.addEventListener("click", (event) =>{
+    
+        const cartProductImage = event.target.closest(".cart-product-image")
+
+        if(cartProductImage){
+            const row = cartProductImage.closest(".cart-item")
+
+            localStorage.setItem("productImage", row.dataset.image)
+            localStorage.setItem("productName", row.dataset.name)
+            localStorage.setItem("productPrice", row.dataset.price)
+
+            window.location.href = "product.html"
+
+            return
+        }
+    })
+
 
         const quantityDisplay = row.querySelector(".quantity")
         const productTotal = row.querySelector(".product-total")
@@ -345,41 +361,69 @@ if (document.querySelector(".cart-table-content")) {
             row.remove()
 
             const productIndex = cartAddedItems.indexOf(product)
-            cartAddedItems.splice(productIndex, 1)
+            if (productIndex !== -1) cartAddedItems.splice(productIndex, 1)
 
-            AllCartItems -= product.quantity
+            AllCartItems = Math.max(0, AllCartItems - product.quantity)
             updateTotalAmount()
-
-            if (AllCartItems < 0) {
-                AllCartItems = 0
-            }
 
             localStorage.setItem("AllCartItems", AllCartItems)
             localStorage.setItem("cartAddedItems", JSON.stringify(cartAddedItems))
 
-            if (AllCartItems > 0) {
-                if (cartItemsDisplay) {
+            if (cartItemsDisplay) {
+                if (AllCartItems > 0) {
                     cartItemsDisplay.textContent = AllCartItems
                     cartItemsDisplay.style.display = "block"
+                } else {
+                    cartItemsDisplay.style.display = "none"
                 }
-            } else {
-                if (cartItemsDisplay) cartItemsDisplay.style.display = "none"
-                clearCart.style.display = "none"
             }
 
+            // FIX 2 + 6: last item removed -> show the empty-cart UI
+            // (previously this used a null element and threw an error)
             if (cartAddedItems.length === 0) {
-                cartIsEmpty.style.display = "block"
+                setEmptyCartUI()
             }
         })
-
-        if (!row) {
-            cartIsEmpty.style.display = "block"
-        }
     })
 
-    if (cartItemsDisplay) {
-        cartItemsDisplay.textContent = AllCartItems
-        cartItemsDisplay.style.display = "block"
+    updateTotalAmount()
+
+    // FIX 3: these listeners are attached ONCE, outside the loop.
+    // Before, a cart with 3 items opened 3 WhatsApp windows per click.
+    if (orderByWhatsapp) {
+        orderByWhatsapp.addEventListener("click", () => {
+            if (cartAddedItems.length === 0) return
+            openWhatsApp(buildOrderMessage())
+        })
+    }
+
+    if (orderBySms) {
+        orderBySms.addEventListener("click", () => {
+            if (cartAddedItems.length === 0) return
+            window.location.href = `sms:${SMS_NUMBER}?body=${encodeURIComponent(buildOrderMessage())}`
+        })
+    }
+
+    // FIX 1: the ONE clear-cart handler (the earlier duplicate, which
+    // never touched localStorage, has been deleted)
+    if (clearCart) {
+        clearCart.addEventListener("click", () => {
+            localStorage.removeItem("cartAddedItems")
+            localStorage.removeItem("AllCartItems")
+
+            cartAddedItems = []
+            AllCartItems = 0
+
+            updateTotalAmount()
+
+            if (cartItemsDisplay) cartItemsDisplay.style.display = "none"
+
+            document.querySelectorAll(".cart-table-content tr:not(:first-child)").forEach((row) => {
+                row.remove()
+            })
+
+            setEmptyCartUI()
+        })
     }
 }
 
@@ -393,6 +437,7 @@ if (document.querySelector(".cart-table-content")) {
 if (document.querySelector(".productPage")) {
 
     const cartBtn = document.querySelector(".cart-btn")
+    const proceedToCartBtn = document.querySelector(".proceed-to-cart-btn")
 
     const productPageImage = document.querySelector(".productPage-image")
     const productPageProductName = document.querySelector(".productPage-product-name")
@@ -403,37 +448,33 @@ if (document.querySelector(".productPage")) {
     const productName = localStorage.getItem("productName")
     const productPrice = localStorage.getItem("productPrice")
 
-    productPageImage.innerHTML = `<img src="${productImage}">`
+    productPageImage.innerHTML = `<img src="${escapeHtml(productImage)}" alt="${escapeHtml(productName)}">`
     productPageProductName.textContent = productName
-    productPagePrice.innerHTML = `Ksh. ${productPrice}`
+    productPagePrice.textContent = priceLabel(productPrice)
 
-    for (let i = 0; i < homepageProductsData.length; i++) {
-        if (productName === homepageProductsData[i].itemName) {
-            productPageProductDescription.innerHTML = homepageProductsData[i].productDescription
-        }
-    }
-
-    cartBtn.addEventListener("click", () => {
-        const quantity = addToCart({ name: productName, price: productPrice, image: productImage })
-
-        cartBtn.innerHTML = `<img src="assets/icon/shopping-cart png.png" alt="cart icon" class="cart-icon"> ${quantity} Added to Cart`
-        if (cartItemsDisplay) {
-            cartItemsDisplay.style.display = "block"
-            cartItemsDisplay.textContent = AllCartItems
-        }
+    //Proceed to cart Btn
+    proceedToCartBtn.addEventListener("click", () => {
+        window.location.href = "cart.html"
     })
 
-    if (orderByWhatsapp) {
-        orderByWhatsapp.addEventListener("click", () => {
-            const message = `Hello, Sylvan Logistics! I'm ordering ${productName}. 
-            Quantity: 
-            Price: ${productPrice}
-            What are the delivery details?`
-
-            const whatsappLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
-            window.open(whatsappLink, "_blank")
-        })
+    const productInfo = homepageProductsData.find((p) => p.itemName === productName)
+    if (productInfo) {
+        productPageProductDescription.innerHTML = productInfo.productDescription
     }
+
+    if (hasPrice(productPrice)) {
+        cartBtn.addEventListener("click", () => {
+            const quantity = addToCart({ name: productName, price: productPrice, image: productImage })
+
+            cartBtn.innerHTML = `<img src="assets/icon/shopping-cart png.png" alt="cart icon" class="cart-icon"> ${quantity} Added to Cart`
+            if (cartItemsDisplay) {
+                cartItemsDisplay.style.display = "block"
+                cartItemsDisplay.textContent = AllCartItems
+            }
+        })
+    } 
+    // FIX 7: the old WhatsApp-order block was removed from here. The h/w
+    // product page has no WhatsApp order button, so it never ran.
 }
 
 // Display cart count badge if there's anything in the cart
@@ -447,8 +488,8 @@ if (allCartItems > 0 && cartItemsDisplay) {
 
 /**
  * ============================================================
- * CATEGORY DATA — computed from product data only, no DOM
- * dependency, so this is safe to run on every page.
+ * CATEGORY DATA (computed from product data only, no DOM
+ * dependency, so this is safe to run on every page)
  * ============================================================
  */
 
@@ -464,9 +505,8 @@ const categoryId = (category) => {
     return category.replace(/[^a-zA-Z0-9]+/g, "-")
 }
 
-// FIX 3: are we currently on index.html? If not, category links
-// need to point back to index.html's anchors, not a fragment
-// that only exists on the homepage.
+// Are we on index.html? If not, category links need to point back
+// to index.html's anchors.
 const onIndexPage = document.querySelector(".all-categories") !== null
 
 const categoryHref = (category) => {
@@ -477,50 +517,53 @@ const categoryHref = (category) => {
 
 /**
  * ============================================================
- * FIX 1: homepage-only product/category rendering — guarded so
- * it only runs where `.all-categories` actually exists.
+ * HOMEPAGE product/category rendering
  * ============================================================
  */
 const allCategories = document.querySelector(".all-categories")
 
+function productCardHtml(product) {
+    const priced = hasPrice(product.itemPrice)
+
+    // FIX 9: every value is escaped. The old version broke on
+    // 'SALI Angle Grinder 710W 4.5"' because of the " in the name.
+    // FIX 8: price 0 shows "Price on request" and an Enquire button.
+    return `
+        <div class="product"
+            data-name="${escapeHtml(product.itemName)}"
+            data-price="${escapeHtml(product.itemPrice)}"
+            data-image="${escapeHtml(product.itemImage)}"
+            data-category="${escapeHtml(product.category)}"
+        >
+
+            <img
+                class="product-image"
+                src="${escapeHtml(product.itemImage)}"
+                alt="${escapeHtml(product.itemName)}"
+            >
+
+            <h3>${escapeHtml(product.itemName)}</h3>
+
+            <p class="price">${priceLabel(product.itemPrice)}</p>
+
+            <button class="cart-btn">Add to Cart</button>
+        </div>
+    `
+}
+
 if (allCategories) {
-
-    categories.forEach((category) => {
-        allCategories.innerHTML += `
-            <section class="categories-styling" id="${categoryId(category)}">
-                <h2>${category}</h2>
-                <section class="products-container"></section>
+    allCategories.innerHTML = categories.map((category) => `
+        <section class="categories-styling" id="${categoryId(category)}">
+            <h2>${escapeHtml(category)}</h2>
+            <section class="products-container">
+                ${homepageProducts
+                    .filter((product) => product.category === category)
+                    .map(productCardHtml)
+                    .join("")}
             </section>
-        `
-    })
+        </section>
+    `).join("")
 
-    homepageProducts.forEach((product) => {
-        const categoryContainer = document.querySelector(
-            `#${categoryId(product.category)} .products-container`
-        )
-        categoryContainer.innerHTML += `
-            <div class="product"
-                data-name="${product.itemName}"
-                data-price="${product.itemPrice}"
-                data-image="${product.itemImage}">
-
-                <img
-                    class="product-image"
-                    src="${product.itemImage}"
-                    alt="${product.itemName}"
-                >
-
-                <h3>${product.itemName}</h3>
-
-                <p class="price">Ksh. ${product.itemPrice}</p>
-
-                <button class="cart-btn">Add to Cart</button>
-            </div>
-            `
-    })
-
-    // FIX 2: properly declared (was previously commented out
-    // while still being used a few lines down)
     // const sumOfAllProducts = document.querySelector(".sum-of-all-products")
     // const productsOnHomepage = document.querySelectorAll(".product")
 
@@ -532,52 +575,42 @@ if (allCategories) {
 
 /**
  * ============================================================
- * FIX 3: drop-menu and footer category links — these run on
- * EVERY page (nav and footer exist everywhere), using the
- * page-aware categoryHref() so links work correctly whether
- * you're already on index.html or coming from product.html /
- * cart.html.
+ * Drop-menu and footer category links (run on every page)
  * ============================================================
  */
 if (dropMenu) {
-    categories.forEach((category) => {
-        dropMenu.innerHTML += `
-            <li class="drop-menu-item">
-                <a href="${categoryHref(category)}">
-                    ${category}
-                </a>
-            </li>
-        `
-    })
+    dropMenu.innerHTML = categories.map((category) => `
+        <li class="drop-menu-item">
+            <a href="${categoryHref(category)}">
+                ${escapeHtml(category)}
+            </a>
+        </li>
+    `).join("")
 }
 
 const footerCategories = document.querySelector(".footer-categories")
 
 if (footerCategories) {
-    categories.forEach((category) => {
-        footerCategories.innerHTML += `
-            <li>
-                <a href="${categoryHref(category)}">
-                    ${category}
-                </a>
-            </li>
-        `
-    })
+    footerCategories.innerHTML = categories.map((category) => `
+        <li>
+            <a href="${categoryHref(category)}">
+                ${escapeHtml(category)}
+            </a>
+        </li>
+    `).join("")
 }
 
 
 /**
  * ============================================================
- * SEARCH — only wired up where the search elements actually
- * exist (i.e. index.html)
+ * SEARCH, only wired up where the search elements exist
+ * (i.e. index.html)
  * ============================================================
  */
 const searchBtn = document.querySelector("#search-btn")
 const search = document.querySelector("#search-input")
 const searchResultsContainer = document.querySelector(".search-results-container")
 
-// Re-select products here in case the homepage block above ran
-// and populated .product elements
 const products = document.querySelectorAll(".product")
 
 function performSearch() {
@@ -587,10 +620,21 @@ function performSearch() {
         searchResultsContainer.innerHTML = ""
         return
     }
+    const searchWords = searched.split(/\s+/)
 
     const matches = [...products].filter((product) => {
-        const { name } = getProductData(product)
-        return name.toLowerCase().includes(searched)
+        const { name, category, description } = getProductData(product)
+
+        // description can contain HTML tags, so search only its text
+        const searchableText = `
+            ${name}
+            ${category}
+            ${stripHtml(description)}
+        `.toLowerCase()
+
+        return searchWords.every((word) => {
+            return searchableText.includes(word)
+        })
     })
 
     searchResultsContainer.scrollIntoView({
@@ -598,21 +642,24 @@ function performSearch() {
         block: "start"
     })
 
+    // FIX 9: the user's text is escaped before it goes back into the page
+    const safeQuery = escapeHtml(search.value)
+
     if (matches.length === 0) {
         searchResultsContainer.style.border = "1px solid"
 
         searchResultsContainer.innerHTML = `
-            <h3>Search Results for "${search.value}"</h3>
+            <h3>Search Results for "${safeQuery}"</h3>
 
             <p class="no-search-results">
-                No products found for "${search.value}"
+                No products found for "${safeQuery}"
             </p>
         `
         return
     }
 
     searchResultsContainer.innerHTML = `
-        <h3>Search Results for "${search.value}"</h3>
+        <h3>Search Results for "${safeQuery}"</h3>
 
         <table class="search-results-table">
 
@@ -627,47 +674,71 @@ function performSearch() {
             <tbody>
                 ${matches.map((product) => {
                     const { image, name, price } = getProductData(product)
+                    const priced = hasPrice(price)
 
                     return `
-                            <tr>
-                                <td>
+                            <tr
+                                class="search-result"
+                                data-name="${escapeHtml(name)}"
+                                data-price="${escapeHtml(price)}"
+                                data-image="${escapeHtml(image)}"
+                            >
+                                <td>                                    
                                     <img
-                                        src="${image}"
-                                        alt="${name}"
+                                        src="${escapeHtml(image)}"
+                                        alt="${escapeHtml(name)}"
                                         class="search-result-image"
                                     >
+                                    
                                 </td>
 
                                 <td>
-                                    ${name}
+                                    ${escapeHtml(name)}
                                 </td>
 
                                 <td>
-                                    Ksh. ${price}
+                                    ${priceLabel(price)}
                                 </td>
 
                                 <td>
-                                    <button
+                                    <button 
                                         class="cart-btn search-cart-btn"
-                                        data-name="${name}"
-                                        data-price="${price}"
-                                        data-image="${image}"
+                                        data-name="${escapeHtml(name)}"
+                                        data-price="${escapeHtml(price)}"
+                                        data-image="${escapeHtml(image)}"
                                     >
-                                        Add to Cart
+                                        ${priced ? "Add to Cart" : "Enquire"}
                                     </button>
                                 </td>
                             </tr>
                     `
-                }).join("")}
+                    
+                }).join("")
+            }
             </tbody>
         </table>
     `
 }
 
-// FIX 4: only attach if the element actually exists on this page
+
 if (searchResultsContainer) {
     searchResultsContainer.addEventListener("click", (event) => {
-        const button = event.target
+        
+        //clickable image
+        const searchResultImage = event.target.closest(".search-result-image")
+        
+        if(searchResultImage){
+            const row = searchResultImage.closest(".search-result")
+
+            localStorage.setItem("productImage", row.dataset.image)
+            localStorage.setItem("productName", row.dataset.name)
+            localStorage.setItem("productPrice", row.dataset.price)
+
+            window.location.href = "product.html"
+        }
+        // closest() so clicking the cart icon inside the button still works
+        const button = event.target.closest(".search-cart-btn")
+        if (!button) return
 
         const productData = {
             name: button.dataset.name,
@@ -718,13 +789,14 @@ products.forEach((product) => {
     if (!cartBtn) return
 
     const { name: productName } = getProductData(product)
-
+   
     const existingProduct = cartAddedItems.find((p) => p.name === productName)
     if (existingProduct) {
         cartBtn.innerHTML = `
             <img src="assets/icon/shopping-cart png.png" alt="cart icon" class="cart-icon">
             ${existingProduct.quantity}`
     }
+    
 
     cartBtn.addEventListener("click", (event) => {
         event.stopPropagation()
@@ -750,50 +822,9 @@ products.forEach((product) => {
     })
 })
 
-
-if (clearCart) {
-    clearCart.addEventListener("click", () => {
-        localStorage.removeItem("cartAddedItems")
-        localStorage.removeItem("AllCartItems")
-
-        cartAddedItems = []
-        AllCartItems = 0
-
-        updateTotalAmount()
-
-        if (cartItemsDisplay) cartItemsDisplay.style.display = "none"
-        cartIsEmpty.style.display = "block"
-
-        const cartRows = document.querySelectorAll(".cart-table-content tr:not(:first-child)")
-        cartRows.forEach((row) => {
-            row.remove()
-            clearCart.style.display = "none"
-        })
-    })
-}
-
-
-/**
- * Whatsapp order from Main page
- */
-orderButtons.forEach((button) => {
-    button.addEventListener("click", (event) => {
-        event.stopPropagation()
-
-        const product = button.closest(".product")
-        if (!product) return
-
-        const { name, price } = getProductData(product)
-
-        const message = `Hello, Sylvan Logistics! I'm ordering ${name}. 
-        Quantity: 
-        Price: ${price}
-        What are the delivery details?`
-
-        const whatsappLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
-        window.open(whatsappLink, "_blank")
-    })
-})
+// FIX 7: the old "Whatsapp order from Main page" block (orderButtons.forEach)
+// was removed. The h/w product cards have no WhatsApp buttons, so it only
+// ever attached a useless extra listener to the cart page's order button.
 
 
 /**
@@ -806,10 +837,11 @@ const paragraphs = document.querySelectorAll(".animated-paragraph")
 paragraphs.forEach((paragraph) => {
     paragraph.innerHTML = paragraph.textContent
         .split(" ")
-        .map(word => `<span class="word">${word}</span>`)
+        .map(word => `<span class="word">${escapeHtml(word)}</span>`)
         .join(" ")
 
-    const words = document.querySelectorAll(".word")
+    // scoped to this paragraph, so delays restart for each one
+    const words = paragraph.querySelectorAll(".word")
     words.forEach((word, index) => {
         word.style.animationDelay = `${index * 0.05}s`
     })
