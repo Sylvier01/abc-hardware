@@ -555,7 +555,7 @@ td{
 }
 .order-btns-container{
     position: sticky;
-    top: 4em;
+    top: 5em;
     display: flex;
     align-items: center;
     justify-content: space-around;
