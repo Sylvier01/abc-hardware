@@ -209,7 +209,7 @@ nav .menu-icon{
 .search-results-container{
     width: fit-content;
     max-width: 95%;
-    scroll-margin-top: 7em;
+    scroll-margin-top: 7.5em;
     margin: 1em auto;
     padding: 0.5em;
     overflow-x: auto;
