@@ -51,168 +51,6 @@ header{
     box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3), 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
 }
 
-/* ============================================================
-   Mobile
-   ============================================================ */
-@media(max-width : 768px){
-
-    header .header-style-1{
-        width: 100%;
-        height: auto;
-        position: relative;
-        top: auto;
-        padding-top: 1em;
-        margin-bottom: 1em;
-        box-shadow: none;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    .below-header-style-1{
-        margin: 0.5em;
-    }
-    /* Slide-in menu: hidden until JS adds the .open class */
-    header .left-aligned-nav{
-        display: none;
-        position: absolute;
-        top: 3.9em;
-        right: 0;
-        width: 80vw;
-        height: 100vh;
-        text-align: center;
-        background-color: rgb(0, 0, 0, 0.8);
-        z-index: 20;
-    }
-    header .left-aligned-nav.open{
-        display: block;
-    }
-    nav .left-aligned-nav a{
-        color: white;
-        font-weight: bold;
-        font-size: 1.3rem;
-        border-bottom: 1px solid;
-        display: block;
-        width: 100%;
-    }
-    nav .left-aligned-nav li{
-        width: 100%;
-    }
-    .left-aligned-nav .close-icon{
-        display: block;
-        width: 40px;
-        margin: 0.5em 0.5em 0 auto;
-    }
-    header nav .menu-icon{
-        display: block;
-    }
-    header nav .logo-image{
-        width: 50px;
-    }
-    nav .categories-icon{
-        width: 20px;
-    }
-    nav .whatsapp-icon,
-    nav .phone-icon{
-        width: 20px;
-    }
-    nav .categories-container{
-        margin-top: 1em;
-        margin-right: auto;
-    }
-    nav .categories-link{
-        margin-top: -1em;
-    }
-    nav .categories-text{
-        display: none;
-    }
-    .down-arrow{
-        margin-top: -1em;
-    }
-    .drop-menu-item:not(:last-child){
-        border-bottom: none;
-    }
-    nav .input-container{
-        width: 80%;
-        padding: 0;
-    }
-    .input-container .search-btn-icon{
-        width: 15px;
-        margin-bottom: -0.3em;
-    }
-    nav .right-aligned-nav{
-        margin-right: 0.5em;
-        gap: 8px;
-    }
-    header nav .cart-container{
-        padding-left: 1em;
-    }
-    .hero .hero-content{
-        margin-top: 3em;
-    }
-    .productPage{
-        flex-direction: column;
-    }
-    .productPage-order{
-        margin: 1em;
-        width: 100%;
-        border: 1px solid;
-    }
-    .productPage .productPage-info{
-        margin: 1em auto;
-    }
-    .productPage-image{
-        margin: 1em auto;
-    }
-    .cart-html h2{
-        font-size: clamp(1rem, 10vw, 1.8rem);
-    }
-    .cart-list-section{
-        width: auto;
-        overflow-x: auto;
-        margin: 0 auto;
-        padding: 0em 1em;
-    }
-    .order-btns-container{
-        flex-direction: column;
-        align-items: stretch;
-        gap: 1em;
-    }
-    .order-btns{
-        width: 100%;
-        min-width: 0;
-    }
-    .order-call-here{
-        width: 100%;
-        text-align: center;
-    }
-    .order-by-whatsapp{
-        width: 100%;
-    }
-    .order-by-sms{
-        max-width: 100%;
-        white-space: normal;
-    }
-    .contact .contact-buttons{
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.1em;
-    }
-    .contact .whatsapp-contact-button{
-        width: 140px;
-    }
-    .upper-footer{
-        flex-direction: column;
-        width: 90%;
-        max-width: 320px;
-        gap: 1em;
-    }
-    .upper-footer .logo-image{
-        width: 40%;
-    }
-    footer .contact{
-        margin-left: 3em;
-    }
-}
 
 /* ============================================================
    General
@@ -708,6 +546,7 @@ td{
     width: min(50em, 100%);
     margin: 1em auto 5em;
     background-color: white;
+    font-size: clamp(1);
 }
 .cart-list-section h2{
     text-decoration: underline;
@@ -1169,5 +1008,170 @@ footer p{
     to{
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+/* ============================================================
+   Mobile
+   ============================================================ */
+@media(max-width : 768px){
+
+    header .header-style-1{
+        width: 100%;
+        height: auto;
+        position: relative;
+        top: auto;
+        padding-top: 1em;
+        margin-bottom: 1em;
+        box-shadow: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .below-header-style-1{
+        margin: 0.5em;
+    }
+    /* Slide-in menu: hidden until JS adds the .open class */
+    header .left-aligned-nav{
+        display: none;
+        position: absolute;
+        top: 3.9em;
+        right: 0;
+        width: 80vw;
+        height: 100vh;
+        text-align: center;
+        background-color: rgb(0, 0, 0, 0.8);
+        z-index: 20;
+    }
+    header .left-aligned-nav.open{
+        display: block;
+    }
+    nav .left-aligned-nav a{
+        color: white;
+        font-weight: bold;
+        font-size: 1.3rem;
+        border-bottom: 1px solid;
+        display: block;
+        width: 100%;
+    }
+    nav .left-aligned-nav li{
+        width: 100%;
+    }
+    .left-aligned-nav .close-icon{
+        display: block;
+        width: 40px;
+        margin: 0.5em 0.5em 0 auto;
+    }
+    header nav .menu-icon{
+        display: block;
+    }
+    header nav .logo-image{
+        width: 50px;
+    }
+    nav .categories-icon{
+        width: 20px;
+    }
+    nav .whatsapp-icon,
+    nav .phone-icon{
+        width: 20px;
+    }
+    nav .categories-container{
+        margin-top: 1em;
+        margin-right: auto;
+    }
+    nav .categories-link{
+        margin-top: -1em;
+    }
+    nav .categories-text{
+        display: none;
+    }
+    .down-arrow{
+        margin-top: -1em;
+    }
+    .drop-menu-item:not(:last-child){
+        border-bottom: none;
+    }
+    nav .input-container{
+        width: 80%;
+        padding: 0;
+    }
+    .input-container .search-btn-icon{
+        width: 15px;
+        margin-bottom: -0.3em;
+    }
+    nav .right-aligned-nav{
+        margin-right: 0.5em;
+        gap: 8px;
+    }
+    header nav .cart-container{
+        padding-left: 1em;
+    }
+    .hero .hero-content{
+        margin-top: 3em;
+    }
+    .productPage{
+        flex-direction: column;
+    }
+    .productPage-order{
+        margin: 1em;
+        width: 100%;
+        border: 1px solid;
+    }
+    .productPage .productPage-info{
+        margin: 1em auto;
+    }
+    .productPage-image{
+        margin: 1em auto;
+    }
+    .cart-html h2{
+        font-size: clamp(1rem, 10vw, 1.8rem);
+    }
+    .cart-list-section{
+        width: auto;
+        margin: 0 auto;
+        padding: 0em 1em;
+    }
+    .cart-list-section td{
+        padding: 0.4em 0.2em;
+    }
+    .order-btns-container{
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1em;
+    }
+    .order-btns{
+        width: 100%;
+        min-width: 0;
+    }
+    .order-call-here{
+        width: 100%;
+        text-align: center;
+    }
+    .order-by-whatsapp{
+        width: 100%;
+    }
+    .order-by-sms{
+        max-width: 100%;
+        white-space: normal;
+    }
+    .contact .contact-buttons{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.1em;
+    }
+    .contact .whatsapp-contact-button{
+        width: 140px;
+    }
+    .upper-footer{
+        flex-direction: column;
+        width: 90%;
+        max-width: 320px;
+        gap: 1em;
+    }
+    .upper-footer .logo-image{
+        width: 40%;
+    }
+    footer .contact{
+        margin-left: 3em;
     }
 }
